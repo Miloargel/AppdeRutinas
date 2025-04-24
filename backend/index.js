@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/users", require("./routes/auth"));
-//app.use ("/api/profile", require("./routes/profile"));
+app.use ("/api/profile", require("./routes/profile"));
 app.use('/api/routine', require('./routes/routine'));
 
 
