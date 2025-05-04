@@ -32,9 +32,13 @@ const getRoutines = async (req, res) => {
       const rutinas = await Routine.find({ user: req.user.id });
 
       const rutinasOrdenadas = rutinas.sort((a, b) => {
-          const dayDiff = weekOrder.indexOf(a.day) - weekOrder.indexOf(b.day);
+          const dayA = a.day.toLowerCase();
+          const dayB = b.day.toLowerCase();
+
+          const dayDiff = weekOrder.indexOf(dayA) - weekOrder.indexOf(dayB);
           if (dayDiff !== 0) return dayDiff;
-          return a.startTime.localeCompare(b.startTime); // de tipo hh:mm
+
+          return a.startTime.localeCompare(b.startTime);
       });
 
       res.json(rutinasOrdenadas);
