@@ -6,7 +6,6 @@ const protect = require ("../middleware/authMiddleware");
 // Crear una nueva rutina (necesita TOKEN)
 router.post ("/", protect, createRoutine); // /api/routine..
 router.get ("/", protect, getRoutines); // /api/routine..
-router.get ('/next', protect, getNextRoutine); // /api/routine..
 router.put ("/:id", protect, updateRoutine); // /api/routine..
 router.delete ("/:id", protect, deleteRoutine); // /api/routine..
 router.patch("/:id/favorite", protect, toggleFavorite); // /api/routine..
