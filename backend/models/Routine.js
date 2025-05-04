@@ -10,8 +10,7 @@ const RoutineSchema = new mongoose.Schema({
     endTime: { type: String, required: true },
     activity: { type: String, required: true },
     category: { type: String, required: true },
-    isFavorite: { type: Boolean, default: false },
-    scheduledAt: { type: Date, required: true }
+    isFavorite: { type: Boolean, default: false }
 
 }, {
     timestamps: true
