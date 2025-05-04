@@ -1,3 +1,6 @@
+
+// Array de la rutina con cada uno de los datos correspondientes
+
 const mongoose = require ("mongoose");
 
 const RoutineSchema = new mongoose.Schema({
@@ -6,10 +9,13 @@ const RoutineSchema = new mongoose.Schema({
     startTime: { type: String, required: true },
     endTime: { type: String, required: true },
     activity: { type: String, required: true },
-    category: { type: String, enum: [ "técnico","lectura", "idiomas", "otro" ], default: "otro" }
+    category: { type: String, required: true },
+    isFavorite: { type: Boolean, default: false },
+    scheduledAt: { type: Date, required: true }
 
 }, {
     timestamps: true
 });
 
 module.exports = mongoose.model ("Routine", RoutineSchema);
+

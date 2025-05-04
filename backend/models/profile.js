@@ -13,3 +13,5 @@ const ProfileSchema = new mongoose.Schema({
     }
 },  { timestamps: true // guarda fecha de creacion y modificacion
 });
+
+module.exports = mongoose.model("Profile", ProfileSchema);

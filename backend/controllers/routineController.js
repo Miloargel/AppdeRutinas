@@ -4,7 +4,9 @@ const Routine = require("../models/Routine");
 
 const createRoutine = async (req,res) => {
     try {
-        const { day, startTime, endTime, activity, category } = req.body;
+        const { day, startTime, endTime, activity, category, isFavorite } = req.body;
+
+        const scheduledAt = new Date(`${day}T${startTime}`); // busca la proxima rutina segun la fecha cargada (NO DIAS CON NOMBRE, ej 05-05-2025)
 
         const rutina = new Routine ({
             user: req.user.id,
@@ -12,7 +14,9 @@ const createRoutine = async (req,res) => {
             startTime,
             endTime,
             activity, 
-            category
+            category,
+            isFavorite,
+            scheduledAt
         });
         await rutina.save ();
         res.status (201).json (rutina);
@@ -75,4 +79,44 @@ const deleteRoutine = async (req, res) => {
     }
 }
 
-module.exports = { createRoutine, getRoutines, updateRoutine, deleteRoutine };
+const toggleFavorite = async (req, res) => {
+  try {
+    const { isFavorite } = req.body;
+
+    const routine = await Routine.findByIdAndUpdate(
+      req.params.id,
+      { isFavorite },
+      { new: true }
+    );
+
+    if (!routine) {
+      return res.status(404).json({ message: "Rutina no encontrada" });
+    }
+
+    res.json(routine);
+  } catch (error) {
+    res.status(500).json({ message: "Error al cambiar el estado de favorita" });
+  }
+};
+// Busca la siguiente rutina mas proxima al dia de la fecha de interes
+const getNextRoutine = async (req, res) => {
+    try {
+      const userId = req.user.id;
+      const now = new Date();
+  
+      const nextRoutine = await Routine.findOne({
+        user: userId,
+        scheduledAt: { $gte: now }
+      }).sort({ scheduledAt: 1 });
+  
+      if (!nextRoutine) {
+        return res.status(404).json({ message: 'No hay rutinas próximas' });
+      }
+  
+      res.json(nextRoutine);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error al buscar la próxima rutina' });
+    }
+  };
+module.exports = { createRoutine, getRoutines, updateRoutine, deleteRoutine, toggleFavorite, getNextRoutine };

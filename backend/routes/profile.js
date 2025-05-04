@@ -4,9 +4,9 @@ const { getProfile, saveProfile, toggleFavorite, getFavorites } = require ("../c
 const protect = require ("../middleware/authMiddleware");
 
 
-router.get ("/", protect, getProfile );
-router.post ("/", protect, saveProfile );
-router.post ("/favorites/:id", protect, toggleFavorite);
-router.get ("/favorites", protect, getFavorites);
+router.get ("/", protect, getProfile ); // /api/profile..
+router.post ("/", protect, saveProfile ); // /api/profile..
+router.post ("/favorites/:id", protect, toggleFavorite); // /api/profile..
+router.get ("/favorites", protect, getFavorites); // /api/profile..
 
 module.exports = router;
